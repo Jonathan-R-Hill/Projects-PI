@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS Users (
+    ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
+    CreatedDate DATE COMMENT 'CreatedDate' DEFAULT (CURRENT_DATE),
+    `FirstName` NVARCHAR(255) NOT NULL COMMENT 'FirstName',
+    `LastName` NVARCHAR(255) NOT NULL COMMENT 'Surname',
+    `UserName` NVARCHAR(255) NOT NULL UNIQUE COMMENT 'UserName',
+) COMMENT 'Users';
+
+CREATE TABLE IF NOT EXISTS Vocabulary (
+    ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
+    UserID INT NOT NULL COMMENT 'UserID' FOREIGN KEY REFERENCES Users(ID),
+    `KnownLanguage-Word` NVARCHAR(255) NOT NULL COMMENT 'Word',
+    `TargetLanguage-Word` NVARCHAR(255) NOT NULL COMMENT 'Word',
+    CreatedDate DATE COMMENT 'CreatedDate' DEFAULT (CURRENT_DATE),
+    `Learnt` BOOLEAN NOT NULL DEFAULT 0 COMMENT 'Learnt',
+    `LastPracticed` DATE COMMENT 'LastPracticed',
+    `NextPractice` DATE COMMENT 'NextPractice'
+) COMMENT 'Vocabulary';
+
+
