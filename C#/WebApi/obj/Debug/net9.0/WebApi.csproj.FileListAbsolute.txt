@@ -51,3 +51,4 @@
 /home/hilly/Documents/Repos/Projects/C#/WebApi/bin/Debug/net9.0/runtimes/win-x64/native/krb5_64.dll
 /home/hilly/Documents/Repos/Projects/C#/WebApi/bin/Debug/net9.0/runtimes/win-x64/native/krbcc64.dll
 /home/hilly/Documents/Repos/Projects/C#/WebApi/bin/Debug/net9.0/runtimes/win/lib/net8.0/System.Windows.Extensions.dll
+/home/hilly/Documents/Repos/Projects/C#/WebApi/obj/Debug/net9.0/WebApi.sourcelink.json

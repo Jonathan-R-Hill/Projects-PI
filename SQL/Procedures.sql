@@ -1,3 +1,5 @@
+USE `Storage`;
+
 DELIMITER //
 ----------- User Management Procedures -----------
 -- Add User Procedure
@@ -30,8 +32,6 @@ BEGIN
 END //
 
 -- Get User ID by UserName
-DROP PROCEDURE IF EXISTS GetUserIdByUserName;
-
 CREATE PROCEDURE GetUserIdByUserName(IN in_userName NVARCHAR(255))
 BEGIN
     DECLARE userId INT;
@@ -46,8 +46,25 @@ BEGIN
     SELECT userId AS ID;
 END;
 
+CREATE PROCEDURE `DeleteUser`(IN userID INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'RAISEERROR: Failed to delete user.';
+    END;
+
+    DELETE FROM Users WHERE ID = userID;
+
+    IF ROW_COUNT() = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'RAISEERROR: User not found.';
+    ELSE
+        SELECT 'Success: User deleted.' AS Status;
+    END IF;
+END;
+
 ----------- Vocab Management Procedures -----------
----------- GETs ----------
 -- Get All Vocabulary
 CREATE PROCEDURE `GetAllVocabulary`(
     IN userID INT
