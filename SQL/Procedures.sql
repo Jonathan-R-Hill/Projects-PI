@@ -149,3 +149,95 @@ BEGIN
         SELECT 'Success: Vocabulary item deleted.' AS Status;
     END IF;
 END //
+
+
+
+
+-- DISCORD PROCEDURES --
+
+DELIMITER //
+
+CREATE PROCEDURE disc_Add_vocab_for_user(
+    IN p_userID VARCHAR(255),
+    IN p_english_word VARCHAR(255),
+    IN p_korean_word VARCHAR(255)
+)
+BEGIN
+    INSERT INTO discord_vocab (userID, english_word, korean_word)
+    VALUES (p_userID, p_english_word, p_korean_word);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE disc_Get_unlearnt_vocab_for_user(
+    IN p_userID VARCHAR(255)
+)
+BEGIN
+    SELECT id, userID, english_word, korean_word, learned, last_practiced
+    FROM discord_vocab
+    WHERE userID = p_userID AND learned = FALSE
+    ORDER BY last_practiced ASC, id ASC; -- Order by last practiced for consistent "next word" or by id if last_practiced is null
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE disc_Get_learnt_vocab_for_user(
+    IN p_userID VARCHAR(255)
+)
+BEGIN
+    SELECT id, userID, english_word, korean_word, learned, last_practiced
+    FROM discord_vocab
+    WHERE userID = p_userID AND learned = TRUE
+    ORDER BY last_practiced ASC, id ASC; -- Order by last practiced descending to see most recently learned
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE disc_Get_vocab_for_user(
+    IN p_userID VARCHAR(255)
+)
+BEGIN
+    SELECT id, userID, english_word, korean_word, learned, last_practiced
+    FROM discord_vocab
+    WHERE userID = p_userID
+    ORDER BY learned ASC, last_practiced ASC, id ASC; -- Unlearned first, then by practice date
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE disc_update_user_wored_learned(
+    IN p_userID VARCHAR(255),
+    IN p_korean_word VARCHAR(255)
+)
+BEGIN
+    UPDATE discord_vocab
+    SET
+        learned = TRUE,
+        last_practiced = NOW() -- Set to current timestamp
+    WHERE
+        userID = p_userID AND korean_word = p_korean_word;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE disc_Reset_Weekly_Unlearned_Words()
+BEGIN
+    -- Reset all words to unlearned and clear last_practiced for all users
+    UPDATE discord_vocab
+    SET
+        learned = FALSE,
+        last_practiced = NULL;
+END //
+
+DELIMITER ;
+
