@@ -229,14 +229,14 @@ END //
 DELIMITER ;
 
 DELIMITER //
-
+DROP PROCEDURE IF EXISTS disc_Reset_Weekly_Unlearned_Words;
 CREATE PROCEDURE disc_Reset_Weekly_Unlearned_Words()
 BEGIN
     -- Reset all words to unlearned and clear last_practiced for all users
     UPDATE discord_vocab
     SET
-        learned = FALSE,
-        last_practiced = NULL;
+        learned = FALSE
+    WHERE last_practiced IS NOT NULL AND last_practiced < NOW() - INTERVAL 7 DAY;
 END //
 
 DELIMITER ;

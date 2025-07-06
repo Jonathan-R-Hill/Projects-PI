@@ -1,0 +1,48 @@
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Ignore logs and temp files
+*.log
+*.tmp
+*.temp
+
+# Ignore package manager outputs
+packages/
+node_modules/
+bower_components/
+
+# Ignore publish outputs
+publish/
+out/
+dist/
+
+# Ignore IDE settings
+.vscode/
+.idea/
+*.swp
+
+# Ignore test results
+TestResults/
+*.coverage
+*.coveragexml
+
+# Ignore secrets and config overrides
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+.env
+.env.*
